@@ -1,0 +1,329 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <img src="{% static 'images/banner5.jpg' %}" style="width:100%; padding: 0" >
+    </div>
+</div>
+<div class="py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-10 mx-auto my-2 text-center">
+                <h1 class="text-capitalize font-weight-bold">Our products</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="our_products_section" style="border:2px solid blue;">
+    <div class="container" style="border:2px solid green;">
+        <div class="row">
+            {% for product in products %} 
+                <div class="col-9 mx-auto col-md-6 col-lg-3">
+                    <div  class="card mb-4">
+                        <div class="py-4">
+                            <a href="{{ product.get_url }}"><img src="{{ product.image.url }}" style="width:200px;"></a>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between" style="background:transparent; border-color:transparent;">
+                            <p class="font-weight-bold mb-0">{{product.name}}</p>
+                            <h5 class="text-info font-italic mb-0">{{product.price}}</h5>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="filter" style="border:2px solid red; width:400px; ">
+        <form method="post" action="{% url 'home' %}">
+            {% csrf_token %}
+            <div class="form-check filter_category">
+                    <p class="font-weight-bold mb-0">Бренд</p>
+                <div class="checkbox">
+                    <input class="form-check-input" name="dahua" id="dahua" type="checkbox">
+                    <label class="form-check-label" for="dahua">Dahua</label>
+                </div>
+                <div>
+                    <input class="form-check-input" name="hikvision" id="hikvision" type="checkbox">
+                    <label class="form-check-label" for="hikvision">Hikvision</label>
+                </div>
+                <div> 
+                    <input class="form-check-input" name="hiwatch" id="hiwatch" type="checkbox">
+                    <label class="form-check-label" for="hiwatch">Hiwatch</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <p class="font-weight-bold mb-0">Тип корпуса</p>
+                <div class="checkbox">
+                    <input class="form-check-input"  id="bullet" type="checkbox">
+                    <label class="form-check-label" for="bullet">Цилиндрическая</label>
+                </div>
+                <div> 
+                    <input class="form-check-input" id="dome" type="checkbox">
+                    <label class="form-check-label" for="dome">Купольная</label>
+                </div>
+                <div>    
+                    <input class="form-check-input" id="ptz" type="checkbox">
+                    <label class="form-check-label" for="ptz">Поворотная</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                    <p class="font-weight-bold mb-0">Тип корпуса</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="outdoor" type="checkbox">
+                    <label class="form-check-label" for="outdoor">Уличная</label>
+                </div>
+                <div class="checkbox">
+                    <input class="form-check-input" id="inner" type="checkbox">
+                    <label class="form-check-label" for="inner">Внутренняя</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <div class="checkbox">
+                    <p class="font-weight-bold mb-0">Разрешение камеры</p>
+                    <input class="form-check-input" name="2px" id="2px" type="checkbox">
+                    <label class="form-check-label" for="2px">2 Мп</label><br>
+                    <input class="form-check-input" name="3px" id="3px" type="checkbox">
+                    <label class="form-check-label" for="3px">3 Мп</label><br>
+                    <input class="form-check-input" name="4px" id="4px" type="checkbox">
+                    <label class="form-check-label" for="4px">4 Мп</label><br>
+                    <input class="form-check-input" name="5px" id="5px" type="checkbox">
+                    <label class="form-check-label" for="5px">5 Мп</label><br>
+                    <input class="form-check-input" name="6px" id="6px" type="checkbox">
+                    <label class="form-check-label" for="6px">6 Мп</label><br>
+                    <input class="form-check-input" name="8px" id="8px" type="checkbox">
+                    <label class="form-check-label" for="8px">8 Мп</label><br>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                    <p class="font-weight-bold mb-0 ">Оптическое увеличение</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="no_zoom" type="checkbox">
+                    <label class="form-check-label" for="no_zoom">Нет</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="4x_zoom" type="checkbox">
+                    <label class="form-check-label" for="4x_zoom">4x</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="10_zoom" type="checkbox">
+                    <label class="form-check-label" for="10_zoom">10x</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="15_zoom" type="checkbox">
+                    <label class="form-check-label" for="15_zoom">15x</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="20_zoom" type="checkbox">
+                    <label class="form-check-label" for="20_zoom">20x</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="23_zoom" type="checkbox">
+                    <label class="form-check-label" for="23_zoom">23x</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="25_zoom" type="checkbox">
+                    <label class="form-check-label" for="25_zoom">25x</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <div class="checkbox">
+                    <p class="font-weight-bold mb-0 ">Оптический сенсор</p>
+                    <input class="form-check-input" id="optical_sensor_cmos1_2" type="checkbox">
+                    <label class="form-check-label" for="optical_sensor_cmos1_2">CMOS 1/2"</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="optical_sensor_cmos1_2_5" type="checkbox">
+                    <label class="form-check-label" for="optical_sensor_cmos1_2_5">CMOS 1/2.5"</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="optical_sensor_cmos1_2_7" type="checkbox">
+                    <label class="form-check-label" for="optical_sensor_cmos1_2_7">CMOS 1/2.7"</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="optical_sensor_cmos1_2_8" type="checkbox">
+                    <label class="form-check-label" for="optical_sensor_cmos1_2_8">CMOS 1/2.8"</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="optical_sensor_cmos1_2_9" type="checkbox">
+                    <label class="form-check-label" for="optical_sensor_cmos1_2_9">CMOS 1/2.9"</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="optical_sensor_cmos1_3" type="checkbox">
+                    <label class="form-check-label" for="optical_sensor_cmos1_3">CMOS 1/3"</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="optical_sensor_cmos1_4" type="checkbox">
+                    <label class="form-check-label" for="optical_sensor_cmos1_4">CMOS 1/4"</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <p class="font-weight-bold mb-0 ">Аудиовход</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="audio_input_yes" type="checkbox">
+                    <label class="form-check-label" for="audio_input_yes">Есть</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="audio_input_no" type="checkbox">
+                    <label class="form-check-label" for="audio_input_no">Нет</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <p class="font-weight-bold mb-0 ">Аудиовыход</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="audio_output_yes" type="checkbox">
+                    <label class="form-check-label" for="audio_output_yes">Есть</label>
+                </div>
+                <div class="checkbox">
+                    <input class="form-check-input" id="audio_output_no" type="checkbox">
+                    <label class="form-check-label" for="audio_output_no">Нет</label><br>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <div class="checkbox">
+                    <p class="font-weight-bold mb-0 ">MicroSD</p>
+                    </div>
+                <div class="checkbox">
+                    <input class="form-check-input" id="micro_sd_yes" type="checkbox">
+                    <label class="form-check-label" for="micro_sd_yes">Есть</label>
+                </div>
+                <div class="checkbox">
+                    <input class="form-check-input" id="micro_sd_no" type="checkbox">
+                    <label class="form-check-label" for="micro_sd_no">Нет</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <div class="checkbox">
+                    <p class="font-weight-bold mb-0 ">Защита от пыли/влаги</p>
+                    <input class="form-check-input" id="protection_no" type="checkbox">
+                    <label class="form-check-label" for="protection_no">Нет</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="protection_IP66" type="checkbox">
+                    <label class="form-check-label" for="protection_IP66">IP66</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="protection_IP67" type="checkbox">
+                    <label class="form-check-label" for="protection_IP67">IP67</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <div>
+                    <label for="customRange1" class="form-label">Example range</label>
+                    <input type="range" class="form-range" id="customRange1"> </div>
+                <p class="font-weight-bold mb-0 ">ИК/EXIR подсветка</p>
+                <div class="checkbox"> 
+                    <input class="form-check-input" id="illumination_no" type="checkbox">
+                    <label class="form-check-label" for="illumination_no">Нет</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="illumination_10" type="checkbox">
+                    <label class="form-check-label" for="illumination_10">10</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="illumination_15" type="checkbox">
+                    <label class="form-check-label" for="illumination_15">15</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="illumination_20" type="checkbox">
+                    <label class="form-check-label" for="illumination_20">20</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="illumination_30" type="checkbox">
+                    <label class="form-check-label" for="illumination_30">30</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="illumination_40" type="checkbox">
+                    <label class="form-check-label" for="illumination_40">40</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="illumination_50" type="checkbox">
+                    <label class="form-check-label" for="illumination_50">50</label>
+               </div>
+               <div class="checkbox">     
+                    <input class="form-check-input" id="illumination_60" type="checkbox">
+                    <label class="form-check-label" for="illumination_60">60</label>
+               </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="illumination_70" type="checkbox">
+                    <label class="form-check-label" for="illumination_70">70</label>
+               </div>
+               <div class="checkbox">
+                    <input class="form-check-input" id="illumination_80" type="checkbox">
+                    <label class="form-check-label" for="illumination_80">80</label>
+                </div>
+                <div class="checkbox">   
+                    <input class="form-check-input" id="illumination_100" type="checkbox">
+                    <label class="form-check-label" for="illumination_100">100</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <p class="font-weight-bold mb-0 ">Наличие тревожных входов</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="alarm_input_yes" type="checkbox">
+                    <label class="form-check-label" for="alarm_input_yes">Есть</label>
+                </div>
+                <div>
+                    <input class="form-check-input" id="alarm_input_no" type="checkbox">
+                    <label class="form-check-label" for="alarm_input_no">Нет</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <p class="font-weight-bold mb-0 ">Наличие тревожных выходов</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="alarm_output_yes" type="checkbox">
+                    <label class="form-check-label" for="alarm_output_yes">Есть</label>
+                </div>
+                <div class="checkbox">
+                    <input class="form-check-input" id="alarm_output_no" type="checkbox">
+                    <label class="form-check-label" for="alarm_output_no">Нет</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <p class="font-weight-bold mb-0 ">Чувствительность</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="sensitivity_0_01" type="checkbox">
+                    <label class="form-check-label" for="sensitivity_0_01">0.01л</label>
+                </div>
+                <div class="checkbox">
+                    <input class="form-check-input" id="sensitivity_0_005" type="checkbox">
+                    <label class="form-check-label" for="sensitivity_0_005">0.005л</label>
+                </div>
+                <div class="checkbox">
+                    <input class="form-check-input" id="sensitivity_0_0001" type="checkbox">
+                    <label class="form-check-label" for="sensitivity_0_0001">0.0001лк</label><br>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <p class="font-weight-bold mb-0 ">Защита от вандализма</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="vand_protect_no" type="checkbox">
+                    <label class="form-check-label" for="vand_protect_no">Нет</label>
+                </div>
+                <div class="checkbox"> 
+                    <input class="form-check-input" id="vand_protect_IK08" type="checkbox">
+                    <label class="form-check-label" for="vand_protect_IK08">IK08</label>
+                </div>
+                <div class="checkbox">    
+                    <input class="form-check-input" id="vand_protect_IK10" type="checkbox">
+                    <label class="form-check-label" for="vand_protect_IK10">IK10</label>
+                </div>
+            </div>
+            <div class="form-check filter_category">
+                <p class="font-weight-bold mb-0 ">Wi-Fi</p>
+                <div class="checkbox">
+                    <input class="form-check-input" id="wi_fi_yes" type="checkbox">
+                    <label class="form-check-label" for="wi_fi_yes">Есть</label>
+                </div>
+                <div class="checkbox">
+                    <input class="form-check-input" id="wi_fi_no" type="checkbox">
+                    <label class="form-check-label" for="wi_fi_no">Нет</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

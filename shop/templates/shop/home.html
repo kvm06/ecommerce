@@ -17,23 +17,41 @@
         </div>
     </div>
 </div>
-<p class="test">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis, animi consequatur sint, harum distinctio vel est perspiciatis possimus dolorem, voluptatum deserunt hic voluptatibus. Beatae debitis similique nisi quam laborum reprehenderit.</p>
-<div class="container">
-    <div class="row">
-
-        {% for product in products %} 
-            <div class="col-9 mx-auto col-md-6 col-lg-3">
-                <div  class="card mb-4">
-                    <div class="py-4">
-                        <a href="{{ product.get_url }}"><img src="{{ product.image.url }}" style="width:200px;"></a>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between" style="background:transparent; border-color:transparent;">
-                        <p class="font-weight-bold mb-0">{{product.name}}</p>
-                        <h5 class="text-info font-italic mb-0">{{product.price}}</h5>
+<div class="our_products_section" style="border:2px solid blue;">
+    <div class="container" style="border:2px solid green;">
+        <div class="row">
+            {% for product in products %} 
+                <div class="col-9 mx-auto col-md-6 col-lg-3">
+                    <div  class="card mb-4">
+                        <div class="py-4">
+                            <a href="{{ product.get_url }}"><img src="{{ product.image.url }}" style="width:200px;"></a>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between" style="background:transparent; border-color:transparent;">
+                            <p class="font-weight-bold mb-0">{{product.name}}</p>
+                            <h5 class="text-info font-italic mb-0">{{product.price}}</h5>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="filter" style="border:2px solid red; width:400px; ">
+        <form method="post" action="{% url 'home' %}">
+            {% csrf_token %}
+            <fieldset>
+                <div class="form-group">
+                    {% for form_field in form %}
+                    <legend>{{form_field.label}}</legend>
+                        {% for check_item in form_field %}
+                            {{check_item.tag}}
+                            <label class="form-check-label" for={{check_item.id_for_label}}>{{check_item.choice_label}}</label><br>
+                        {% endfor %}
+                {% endfor %}
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
     </div>
 </div>
 {% endblock %}
+

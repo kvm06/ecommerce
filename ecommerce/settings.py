@@ -123,17 +123,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'ecommerce/static/'),
-    #os.path.join(BASE_DIR, 'ecommerce/static/css/images'),
-    ]
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'ecommerce/static/'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 MEDIA_URL = '/media/'
@@ -141,4 +138,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CRISPY_TEMPLATE_PATH = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
