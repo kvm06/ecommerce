@@ -1,7 +1,7 @@
 {% load static %}
 
-<nav class='navbar navbar-expand-md navbar-light bg-light fixed-top'>
-    <a href="{% url 'home' %}" class='navbar-brend'><span class="material-icons text-success md-48">
+<nav class='navbar navbar-expand-md navbar-light bg-white fixed-top'>
+    <a href="{% url 'home' %}" class='navbar-brend'><span class="material-icons md-48" style="color:#00c6d7">
         video_camera_back
         </span></a>
     <button class="navbar-toggler bg-light" data-bs-toggle="collapse" data-bs-target="#navbar"><span class="navbar-toggler-icon"></span></button>
@@ -17,16 +17,16 @@
                         {% endfor %}
                     </div>
                 </li>
-                <li class='nav-item'><a class='nav-link text-dark text-uppercase font-weight-bold px-3' href='#'>Contacts</a></li>
+                <li class='nav-item'><a class='test nav-link text-dark text-uppercase font-weight-bold px-3' href='#'>Contacts</a></li>
                 <li class='nav-item'><a class='nav-link text-dark text-uppercase font-weight-bold px-3' href='#'>About</a></li>
-                <form class="form-inline">
+                <!-- <form class="form-inline">
                     <div class="input-group">
                         <input type="text" placeholder="Search">
                         <div>
                             <button class="btn-success"><span class="material-icons md-24">search</span></button>
                         </div>
                     </div>
-                </form>
+                </form> -->
         </div>
         <div>
             {% if item_count > 0 %}
@@ -63,7 +63,6 @@
                 </svg>
             </a>
             {% endif %}
-
         </div>
             
             

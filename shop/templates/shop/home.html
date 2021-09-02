@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load get_count_tags %}
 {% block title %} Home {% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <img src="{% static 'images/banner5.jpg' %}" style="width:100%; padding: 0" >
+        <img class="banner_img" src="{% static 'images/banner5.jpg' %}" style="width:100%; padding: 0" >
     </div>
 </div>
 <div class="py-4">
@@ -17,39 +19,60 @@
         </div>
     </div>
 </div>
-<div class="our_products_section" style="border:2px solid blue;">
-    <div class="container" style="border:2px solid green;">
+<div class="our_products_section" >
+    <div class="container">
         <div class="row">
             {% for product in products %} 
-                <div class="col-9 mx-auto col-md-6 col-lg-3">
-                    <div  class="card mb-4">
-                        <div class="py-4">
-                            <a href="{{ product.get_url }}"><img src="{{ product.image.url }}" style="width:200px;"></a>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between" style="background:transparent; border-color:transparent;">
-                            <p class="font-weight-bold mb-0">{{product.name}}</p>
-                            <h5 class="text-info font-italic mb-0">{{product.price}}</h5>
-                        </div>
+                <div class="card col-9 mx-auto col-md-6 col-lg-3">
+                    <div class="card_top">
+                        <a href="{{ product.get_url }}"><img class="card-img-top" src="{{ product.image.url }}" style="width:200px; height:auto;"></a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.name}}</h5>
+                        <p class="card-text">{{product.short_descr}}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between" style="background:transparent; border-color:transparent;">
+                        <h5 class="text-info font-italic mb-0">{{product.price}}</h5>
+                        <a href="{% url 'add_to_cart' product.id %}"class='cart_button'}" class='cart_button'>
+                            <img class='icon' src="{% static 'css/cart.svg' %}">
+                        </a>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-    <div class="filter" style="border:2px solid red; width:400px; ">
+    <div class="filter_section">
         <form method="post" action="{% url 'home' %}">
             {% csrf_token %}
-            <fieldset>
-                <div class="form-group">
-                    {% for form_field in form %}
-                    <legend>{{form_field.label}}</legend>
-                        {% for check_item in form_field %}
-                            {{check_item.tag}}
-                            <label class="form-check-label" for={{check_item.id_for_label}}>{{check_item.choice_label}}</label><br>
-                        {% endfor %}
+                {% for form_field in filter_form %}
+                <fieldset class="form-group">
+                <legend>{{form_field.label}}</legend>
+                    {% for check_item in form_field %}
+                        {{check_item.tag}}
+                        <label class="form-check-label" for={{check_item.id_for_label}}>
+                            {{check_item.choice_label}}
+                        </label>
+                        <label class="form-check-label count_label" for={{check_item.id_for_label}}>
+                            <div class="product_count_div">{{check_item.id_for_label|get_count:current_counts}}
+                                /{{check_item.id_for_label|get_count:total_counts}}
+                            </div>
+                        </label>
+                        <br>
+                    {% endfor %}
+                </fieldset>
                 {% endfor %}
-                </div>
-            </fieldset>
             <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+</div>
+<hr>
+<div class="contact_block">
+    <div class="contact">
+        <h2 style="text-align:center; font-weight:bold;">Send me message!</h2>
+        <form method="post" action="{% url 'contact' %}">
+            {% csrf_token %}
+            {{contact_form  | crispy}}
+            <button type="submit" class="btn btn-primary">Send message</button>
         </form>
     </div>
 </div>

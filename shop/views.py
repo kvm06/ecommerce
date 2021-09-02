@@ -1,47 +1,78 @@
+from django import http
 from django.core.exceptions import ObjectDoesNotExist
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
-from .models import Product, Category, Cart, CartItem
+from django.urls.base import is_valid_path
+from django.utils.translation import check_for_language
+from .models import Product, Category, Cart, CartItem, CheckboxChoices
 from django.contrib.auth.models import Group, User
 from django import forms
-from .forms import SignUpForm, FilterForm
+from .forms import SignUpForm, FilterForm, ContactForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
+from django.core.mail import send_mail
 # Create your views here.
 
-def home(request):
-    form = FilterForm(request.POST)
+def home(request, category_slug=None):
+
+    contact_form = ContactForm()
+    filter_form = FilterForm(request.POST)
     products=Product.objects.all()
-    resolutions = dict(form.data).get("resolution_field")
-    corpuses = dict(form.data).get("corpus_field")
-    brands = dict(form.data).get("brand_field")
-    if resolutions is not None:
-        products = products.filter(resolution__in = resolutions)
+    category_page=None
+    count = "SOMESTRING"
+
+    if request.method == 'POST':
+        if filter_form.is_valid():
+            for form_field in filter_form.fields.keys():
+                filter_request = form_field + "__in"
+                search_list = filter_form.cleaned_data[form_field]
+                if search_list:
+                    products = products.filter(**{filter_request: search_list})
+        else:
+            filter_form = FilterForm() 
+    else: 
+        if category_slug != None:
+            category_page = get_object_or_404(Category, slug=category_slug)
+            products = Product.objects.filter(category=category_page, available=True)
+
+    current_counts = {}
+    total_counts = {}
+    for field in filter_form.fields:
+        num = 0
+        for choice in filter_form.fields[field].choices:
+            current_count = products.filter(**{field:choice[0]}).count()
+            total_count = Product.objects.all().filter(**{field:choice[0]}).count()
+            key = '{0}_{1}_{2}'.format("id", field, num)
+            current_counts[key] = current_count
+            total_counts[key] = total_count
+            num += 1
+
+    for choices in filter_form.fields["resolution"].choices:
+        print(choices)        
+    return render(request, 'shop/home.html', {'products':products, 'filter_form': filter_form, 'contact_form':contact_form, 'category':category_page, 'current_counts':current_counts, 'total_counts':total_counts})
     
-    if corpuses is not None:
-        products = products.filter(corpus__in = corpuses)
+def contact_me(request):
+    contact_form = ContactForm(request.POST)
 
-    if brands is not None:
-            products = products.filter(brand__in = brands)
+    # if contact_form.is_valid():
+    #     subject = contact_form.cleaned_data['subject']
+    #     message = contact_form.cleaned_data['message']
+    #     sender = contact_form.cleaned_data['sender']
+    #     cc_myself = contact_form.cleaned_data['cc_myself']
 
-    return render(request, 'shop/home.html', {'form': form, 'products':products})
+    #     recipients = ['koloev_vis@mail.ru']
 
-# def home(request, category_slug=None):
-#     category_page=None
-#     products=None
+    #     if cc_myself:
+    #         recipients.append(sender)
+    #     send_mail(subject, message, sender, recipients)
+    #     return HttpResponseRedirect('thanks')
+    # else:
+    #     print('form is no valid')
+    return redirect('home')
 
-#     if request.method == "POST":
-#         # products = Product.objects.filter(resolution="4mp")
-#         print(list(request.POST.items()))
-
-#     else:
-#         if category_slug != None:
-#             category_page = get_object_or_404(Category, slug=category_slug)
-#             products = Product.objects.filter(category=category_page, available=True)
-#         else:
-#             products = Product.objects.all().filter(available=True)
-
-#     return render(request, "shop/home.html", {'category':category_page, 'products': products})
+def thanks(request):
+    return render(request, "shop/thanks.html")
 
 def product(request, category_slug, product_slug):
     try:

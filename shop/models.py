@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse
 
 # Create your models here.
-
 class CheckboxChoices:
     BRAND_CHOICES = [
         ('dahua', 'Dahua'),
@@ -15,13 +14,13 @@ class CheckboxChoices:
         ('ptz', 'Поворотная'),
     ]
     RESOLUTION_CHOICES = [
-        ('1mp', '1MP'),
-        ('2mp', '2MP'),
-        ('3mp', '3MP'),
-        ('4mp', '4MP'),
-        ('5mp', '5MP'),
-        ('6mp', '6MP'),
-        ('8mp', '8MP'),
+        ('1mp', '1Мп'),
+        ('2mp', '2Мп'),
+        ('3mp', '3Мп'),
+        ('4mp', '4Мп'),
+        ('5mp', '5Мп'),
+        ('6mp', '6Мп'),
+        ('8mp', '8Мп'),
     ]
 
     PLACE_CHOICES = [
@@ -31,7 +30,7 @@ class CheckboxChoices:
     ]
 
     ZOOM_CHOICES = [
-        ('no', '1MP'),
+        ('no', 'Нет'),
         ('4x', '4x'),
         ('10x', '10x'),
         ('15x', '15x'),
@@ -51,8 +50,8 @@ class CheckboxChoices:
     ]
 
     YES_OR_NO_CHOICES = [
-        ('yes', 'Есть'),
-        ('no', 'Нет'),
+        (True, 'Есть'),
+        (False, 'Нет'),
     ]
 
     PROTECTION_CHOICES = [
@@ -73,18 +72,30 @@ class CheckboxChoices:
         ('80', '80'),
         ('100', '100'),
     ] 
-    SENSITIVITY_CHOICES = [
-        ('0_01', '0.01л'),
-        ('0_005', '0.005л'),
-        ('0_0001', '0.0001лк'),
+
+    CATEGORY_CHOICES = [
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High'),
     ]
 
-    VAND_PROT_CHOICES = [
-        ('no', 'Нет'),
-        ('ik08', 'IK08'),
-        ('ik10', 'IK10'),
+    LENS_TYPE_CHOCIES = [
+        ('fixed', 'Фиксированный'),
+        ('motorized', 'Моторизированный')
     ]
 
+    FOCAL_LENGTH = [
+        ('2mm', '2мм'),
+        ('2.7-8.1mm', '2.7-8.1мм'),
+        ('2.7-13.5mm', '2.7-13.5мм'),
+        ('2.8mm', '2.8мм'),
+        ('2.8-12mm', '2.8-12мм'),
+        ('3.6mm', '3.6мм'),
+        ('4.8-120mm', '4.8-120мм'),
+        ('5-75mm', '5-75мм'),
+        ('6mm', '6мм'),
+    ]
+    
 class Category(models.Model):
     name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
@@ -113,24 +124,22 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
-    resolution = models.CharField(max_length=250, choices=CheckboxChoices.RESOLUTION_CHOICES, default='0')
-    corpus = models.CharField (max_length=250, choices=CheckboxChoices.CORPUS_CHOICES, default='0') 
-    brand = models.CharField (max_length=250, choices=CheckboxChoices.CORPUS_CHOICES, default='0') 
-    zoom = models.CharField (max_length=250, choices=CheckboxChoices.ZOOM_CHOICES, default='0') 
-    sensor = models.CharField (max_length=250, choices=CheckboxChoices.SENSOR_CHOICES, default='0') 
-    protection = models.CharField (max_length=250, choices=CheckboxChoices.PROTECTION_CHOICES, default='0') 
-    ik = models.CharField (max_length=250, choices=CheckboxChoices.IK_CHOICES, default='0') 
-    sensitivity = models.CharField (max_length=250, choices=CheckboxChoices.SENSITIVITY_CHOICES, default='0') 
-    vand_protection = models.CharField (max_length=250, choices=CheckboxChoices.VAND_PROT_CHOICES, default='0') 
-
-    has_audio_input = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0') 
-    has_audio_output = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0') 
-    has_wifi = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0') 
-    has_microsd = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0') 
-    has_alarm_input  = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0') 
-    has_alarm_output  = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0') 
-
+    
+    camera_category = models.CharField(max_length=250, choices=CheckboxChoices.CATEGORY_CHOICES, default='0', blank=True)
+    resolution = models.CharField(max_length=250, choices=CheckboxChoices.RESOLUTION_CHOICES, default='0', blank=True)
+    corpus = models.CharField (max_length=250, choices=CheckboxChoices.CORPUS_CHOICES, default='0', blank=True) 
+    brand = models.CharField (max_length=250, choices=CheckboxChoices.BRAND_CHOICES, default='0', blank=True) 
+    zoom = models.CharField (max_length=250, choices=CheckboxChoices.ZOOM_CHOICES, default='0', blank=True) 
+    sensor = models.CharField (max_length=250, choices=CheckboxChoices.SENSOR_CHOICES, default='0', blank=True) 
+    protection = models.CharField (max_length=250, choices=CheckboxChoices.PROTECTION_CHOICES, default='0', blank=True) 
+    ik = models.CharField (max_length=250, choices=CheckboxChoices.IK_CHOICES, default='0', blank=True) 
+    sensitivity = models.CharField (max_length=250, default='0', blank=True, null=True) 
+    focal_length = models.CharField(max_length=250, choices=CheckboxChoices.FOCAL_LENGTH, default='0', blank=True)
+    lens_type = models.CharField(max_length=250, choices=CheckboxChoices.LENS_TYPE_CHOCIES, default='0', blank=True)
+    has_micro = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0', blank=True) 
+    has_wifi = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0', blank=True) 
+    has_microsd = models.BooleanField (choices=CheckboxChoices.YES_OR_NO_CHOICES, default='0', blank=True) 
+    short_descr = models.CharField (max_length=100, default='0', blank=True) 
     class Meta:
         ordering = ('name',)
         verbose_name = 'product'
@@ -138,7 +147,7 @@ class Product(models.Model):
 
     def get_url(self):
         return reverse('product_detail', args=[self.category.slug, self.slug])
-
+    
     def __str__(self):
         return self.name
 
@@ -167,4 +176,4 @@ class CartItem(models.Model):
         return self.quantity * self.product.price
     
     def __str__(self):
-        return self.product
+        return str(self.product)

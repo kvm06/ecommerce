@@ -1,8 +1,11 @@
 from django import forms
+from django.contrib.auth import models
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import widgets
-from .models import CheckboxChoices
+from django.forms.models import ModelForm
+from django.utils.regex_helper import Choice
+from .models import CheckboxChoices, Product
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, required=True)
@@ -12,50 +15,37 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'password1', 'password2', 'email')
-
+        
 class FilterForm(forms.Form):
-    corpus_field = forms.MultipleChoiceField(label="Тип корпуса", required=False, 
+    camera_category = forms.MultipleChoiceField(label="Категория", required=False, 
+        choices=CheckboxChoices.CATEGORY_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
+    corpus = forms.MultipleChoiceField(label="Тип корпуса", required=False, 
         choices=CheckboxChoices.CORPUS_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-
-    brand_field = forms.MultipleChoiceField(label="Бренд", required=False, 
+    brand = forms.MultipleChoiceField(label="Бренд", required=False, 
         choices=CheckboxChoices.BRAND_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-
-    resolution_field = forms.MultipleChoiceField(label="Разрешение", required=False, 
+    resolution = forms.MultipleChoiceField(label="Разрешение", required=False, 
         choices=CheckboxChoices.RESOLUTION_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-
-    zoom_field = forms.MultipleChoiceField(label="Оптическое увеличение", required=False, 
+    zoom = forms.MultipleChoiceField(label="Оптическое увеличение", required=False, 
         choices=CheckboxChoices.ZOOM_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    sensor_field = forms.MultipleChoiceField(label="Оптический сенсор", required=False, 
+    sensor = forms.MultipleChoiceField(label="Оптический сенсор", required=False, 
         choices=CheckboxChoices.SENSOR_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    protection_field = forms.MultipleChoiceField(label="Аудиовход", required=False, 
-        choices=CheckboxChoices.YES_OR_NO_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    ik_field = forms.MultipleChoiceField(label="Аудиовыход", required=False, 
-        choices=CheckboxChoices.YES_OR_NO_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    sensitivity_field = forms.MultipleChoiceField(label="MicroSD", required=False, 
-        choices=CheckboxChoices.YES_OR_NO_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    vand_protection_field = forms.MultipleChoiceField(label="Защита от пыли/влаги", required=False, 
+    protection = forms.MultipleChoiceField(label="Защита от пыли/влаги", required=False, 
         choices=CheckboxChoices.PROTECTION_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    has_audio_input_field = forms.MultipleChoiceField(label="ИК/EXIR подсветка", required=False, 
+    ik = forms.MultipleChoiceField(label="ИК/EXIR подсветка", required=False, 
         choices=CheckboxChoices.IK_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    has_audio_output_field = forms.MultipleChoiceField(label="Наличие тревожных входов", required=False, 
+    has_micro = forms.MultipleChoiceField(label="Аудиовыход", required=False, 
         choices=CheckboxChoices.YES_OR_NO_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    has_wifi_field = forms.MultipleChoiceField(label="Наличие тревожных выходов", required=False, 
+    has_wifi = forms.MultipleChoiceField(label="Wi-Fi", required=False, 
         choices=CheckboxChoices.YES_OR_NO_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    has_microsd_field = forms.MultipleChoiceField(label="Чувствительность", required=False, 
-        choices=CheckboxChoices.SENSITIVITY_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    has_alarm_input_field  = forms.MultipleChoiceField(label="Защита от вандализма", required=False, 
-        choices=CheckboxChoices.VAND_PROT_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
-    
-    has_alarm_output_field  = forms.MultipleChoiceField(label="Wi-Fi", required=False, 
+    has_microsd = forms.MultipleChoiceField(label="MicroSD", required=False, 
         choices=CheckboxChoices.YES_OR_NO_CHOICES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
+    focal_length = forms.MultipleChoiceField(label="Фокусное расстояние объектива", required=False, 
+        choices=CheckboxChoices.FOCAL_LENGTH, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
+    lens_type = forms.MultipleChoiceField(label="Тип объектива", required=False, 
+        choices=CheckboxChoices.LENS_TYPE_CHOCIES, widget=forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'}))
 
+class ContactForm(forms.Form):
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea(attrs={'rows':'5'}))
+    sender = forms.EmailField()
+    cc_myself = forms.BooleanField(required=False)

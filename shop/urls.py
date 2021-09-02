@@ -13,5 +13,6 @@ urlpatterns = [
     path('account/create/', views.sign_up_view, name="sign_up_view"),
     path('account/login/', views.log_in_view, name="log_in_view"),
     path('account/logout/', views.log_out_view, name="log_out_view"),
+    path('contact', views.contact_me, name="contact"),
+    path('thanks', views.thanks, name="thanks"),
 ] 
- 
