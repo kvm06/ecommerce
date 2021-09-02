@@ -20,7 +20,6 @@ def home(request, category_slug=None):
     filter_form = FilterForm(request.POST)
     products=Product.objects.all()
     category_page=None
-    count = "SOMESTRING"
 
     if request.method == 'POST':
         if filter_form.is_valid():
