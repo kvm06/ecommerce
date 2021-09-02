@@ -1,0 +1,186 @@
+@font-face {
+    font-family: Roboto;
+    src: url("fonts/Roboto-Regular.ttf");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url("fonts/Roboto-Bold.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+body {
+    font-family: Roboto;
+}
+
+/* Navbar */
+.reg_menu {
+    display: inline-block;
+    margin: 10px 30px;
+    vertical-align:middle;
+}
+
+.reg_menu_item {
+    padding: 12px 18px;
+    margin: .618em .78em;
+    border-radius: 300px;
+    border: 2px solid #00c6d7;
+    background-color: white;
+    color:#00c6d7;
+    text-decoration: none;
+
+    font-family: Roboto;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    
+    transition-duration: 0.17s;
+    transition-timing-function: ease-out, ease-out;
+    transition-property: color, background-color; 
+}
+.reg_menu_item:hover {
+    background-color: #00c6d7;
+    color: white;
+}
+
+.path {
+    fill: #00c6d7;
+}
+
+.reg_menu_item:hover > svg .path {
+    fill: white;
+    transition-duration: 0.17s;
+    transition-timing-function: ease-out;
+    transition-property: fill; 
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+#item_count {
+    font-size: 20px;
+    color: black;;
+}
+
+/* Banner */
+.banner_img {
+    position: relative;
+    top: 30px;
+}
+
+/* Product section */
+
+.our_products_section {
+    display:flex;
+}
+
+.product_price {
+    font-size: 25px;
+}
+
+.card_top {
+    height: 220px;;
+}
+
+.cart_button {
+    width: 50px;
+    height: 40px;
+    background-color: #00c6d7;
+    border-radius: 5px;
+    border: white;
+}
+
+.icon {
+    width: 50px;
+    height: 40px;
+}
+
+.text-info {
+    font-weight: bold;
+}
+
+.card_top{
+    display:flex;
+    justify-content: center; /*центрируем элемент по горизонтали */
+    align-items: center; /* и вертикали */
+    overflow: hidden; /* если элемент больше блока-родителя – обрезаем лишнее */
+}
+/* Filter section  */
+
+legend {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 0;
+}
+
+fieldset {
+    border: 1px solid darkgray;
+    padding: 0 10px 5px 10px;
+}
+
+.check_box_element {
+    list-style-type: none;
+    padding: 5px;
+}
+
+.filter_section {
+    width: 350px;
+}
+
+.form-check-input {
+    width:20px; 
+    height:20px;
+    cursor: pointer;
+}
+
+.form-check-label {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.count_label {
+    float: right;
+    font-size: 0.8em;
+    color: grey;
+}
+.errorlist li {
+    color: red;
+    font-weight: bold;
+}
+
+/* Product details page */
+.product_text {
+    padding-right: 20px;
+}
+
+.product_title {
+    font-size: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.product_desc {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+/* Contact me  */
+.contact {
+    width: 50%;
+    margin: 20px auto;
+}
+
+.contact_block {
+    width: 100%;
+    margin: 0;
+    background-color: #00c6d7;
+}
